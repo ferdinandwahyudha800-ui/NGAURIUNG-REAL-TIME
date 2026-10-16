@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ngariung - Aplikasi chat real-time sederhana">
+    <title>Ngariung - Chat App</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/themes.css">
+</head>
+
+<body>
+    <!-- Main App Container -->
+    <div class="app-container" id="appContainer">
+
+        <!-- Sidebar - Rooms List -->
+        <aside class="sidebar" id="sidebar" role="navigation" aria-label="Daftar Ruang">
+            <div class="sidebar-header">
+                <h1 class="app-title">Ngariung</h1>
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">
+                    <span class="hamburger-icon">☰</span>
+                </button>
+            </div>
+
+            <div class="sidebar-actions">
+                <button class="btn btn-primary btn-block" id="createRoomBtn" aria-label="Buat ruang baru">
+                    <span class="icon">+</span> Buat Ruang
+                </button>
+                <button class="btn btn-secondary btn-block" id="startDmBtn" aria-label="Mulai pesan pribadi">
+                    <span class="icon">💬</span> Pesan Pribadi
+                </button>
+            </div>
+
+            <div class="rooms-section">
+                <h2 class="section-title">Ruang Saya</h2>
+                <div class="rooms-list" id="roomsList" role="list">
+                    <!-- Room items akan diisi dari JavaScript -->
+                    <div class="loading-state" id="roomsLoading">
+                        <div class="spinner"></div>
+                        <p>Memuat ruang...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <button class="btn btn-text" id="settingsBtn" aria-label="Pengaturan">
+                    <span class="icon">⚙️</span> Pengaturan
+                </button>
+                <button class="btn btn-text" id="logoutBtn" aria-label="Keluar">
+                    <span class="icon">🚪</span> Keluar
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Chat Area -->
+        <main class="chat-main" role="main">
+            <header class="chat-header">
+                <div class="chat-header-info">
+                    <button class="back-btn" id="backBtn" aria-label="Kembali ke daftar">
+                        ‹
+                    </button>
+                    <div class="room-info">
+                        <h2 class="room-name" id="roomName">Pilih ruang untuk mulai chat</h2>
+                        <p class="room-members" id="roomMembers"></p>
+                    </div>
+                </div>
+                <div class="chat-header-actions">
+                    <button class="btn-icon members-toggle" id="membersToggle" aria-label="Toggle daftar anggota"
+                        aria-expanded="false">
+                        <span class="icon">👥</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Connection Status Indicator -->
+            <div class="connection-status" id="connectionStatus" role="status" aria-live="polite">
+                <span class="status-dot"></span>
+                <span class="status-text">Connecting...</span>
+            </div>
+
+            <!-- Messages Container -->
+            <div class="messages-container" id="messagesContainer" role="log" aria-live="polite" aria-atomic="false">
+                <div class="messages-scroll" id="messagesScroll">
+                    <!-- Welcome state -->
+                    <div class="welcome-state" id="welcomeState">
+                        <div class="welcome-icon">💬</div>
+                        <h3>Selamat datang di Ngariung!</h3>
+                        <p>Pilih ruang dari sidebar untuk mulai mengobrol</p>
+                    </div>
+
+                    <!-- Messages akan diisi dari JavaScript -->
+                    <div class="messages-list" id="messagesList">
+                        <!-- Message items -->
+                    </div>
+
+                    <!-- Typing Indicator -->
+                    <div class="typing-indicators" id="typingIndicators" aria-live="polite">
+                        <!-- Typing indicators akan muncul di sini -->
+                    </div>
+                </div>
+
+                <!-- Scroll to bottom button -->
+                <button class="scroll-to-bottom" id="scrollToBottom" aria-label="Scroll ke bawah"
+                    style="display: none;">
+                    ↓
+                </button>
+            </div>
+
+            <!-- Message Composer -->
+            <div class="message-composer">
+                <button class="btn-icon emoji-btn" id="emojiBtn" type="button" aria-label="Pilih emoji"
+                    aria-haspopup="true">
+                    😊
+                </button>
+                <div class="input-wrapper">
+                    <textarea class="message-input" id="messageInput" placeholder="Ketik pesan..." rows="1"
+                        maxlength="500" aria-label="Pesan" aria-describedby="charCounter"></textarea>
+                    <span class="char-counter" id="charCounter">0/500</span>
+                </div>
+                <button class="btn btn-primary send-btn" id="sendBtn" disabled aria-label="Kirim pesan">
+                    Kirim
+                </button>
+            </div>
+        </main>
+
+        <!-- Members Panel -->
+        <aside class="members-panel" id="membersPanel" role="complementary" aria-label="Anggota ruang">
+            <div class="members-header">
+                <h3>Anggota</h3>
+                <button class="btn-icon close-members" id="closeMembersBtn" aria-label="Tutup panel anggota">
+                    ✕
+                </button>
+            </div>
+            <div class="members-list" id="membersList" role="list">
+                <!-- Member items akan diisi dari JavaScript -->
+                <div class="empty-state">
+                    <p>Pilih ruang untuk melihat anggota</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Modals -->
+
+    <!-- Create Room Modal -->
+    <div class="modal" id="createRoomModal" role="dialog" aria-labelledby="createRoomTitle" aria-hidden="true">
+        <div class="modal-overlay" data-close-modal></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="createRoomTitle">Buat Ruang Baru</h2>
+                <button class="btn-icon modal-close" data-close-modal aria-label="Tutup">✕</button>
+            </div>
+            <form id="createRoomForm" class="modal-body">
+                <div class="form-group">
+                    <label for="roomNameInput">Nama Ruang <span class="required">*</span></label>
+                    <input type="text" id="roomNameInput" name="name" class="form-input"
+                        placeholder="contoh: diskusi-proyek" minlength="3" maxlength="50" required aria-required="true"
+                        aria-describedby="roomNameHelp">
+                    <small id="roomNameHelp" class="form-help">3-50 karakter, gunakan huruf, angka, dash, atau
+                        underscore</small>
+                    <div class="form-error" id="roomNameError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="roomDescInput">Deskripsi (opsional)</label>
+                    <textarea id="roomDescInput" name="description" class="form-input"
+                        placeholder="Jelaskan topik ruang ini..." maxlength="200" rows="3"></textarea>
+                    <small class="form-help">Maksimal 200 karakter</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Tipe Ruang <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="type" value="Public" checked>
+                            <span class="radio-text">
+                                <strong>Publik</strong>
+                                <small>Semua orang bisa bergabung</small>
+                            </span>
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="type" value="Private">
+                            <span class="radio-text">
+                                <strong>Privat</strong>
+                                <small>Hanya dengan undangan</small>
+                            </span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close-modal>Batal</button>
+                    <button type="submit" class="btn btn-primary" id="createRoomSubmit">Buat Ruang</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Users List Modal (for Direct Messages) -->
+    <div class="modal" id="usersModal" role="dialog" aria-labelledby="usersModalTitle" aria-hidden="true">
+        <div class="modal-overlay" data-close-modal></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="usersModalTitle">Mulai Pesan Pribadi</h2>
+                <button class="btn-icon modal-close" data-close-modal aria-label="Tutup">✕</button>
+            </div>
+            <div class="modal-body">
+                <div class="search-box">
+                    <input type="search" id="userSearchInput" class="form-input" placeholder="Cari pengguna..."
+                        aria-label="Cari pengguna">
+                </div>
+                <div class="users-list" id="usersList" role="list">
+                    <!-- User items akan diisi dari JavaScript -->
+                    <div class="loading-state">
+                        <div class="spinner"></div>
+                        <p>Memuat pengguna...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal" role="dialog" aria-labelledby="settingsModalTitle" aria-hidden="true">
+        <div class="modal-overlay" data-close-modal></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="settingsModalTitle">Pengaturan</h2>
+                <button class="btn-icon modal-close" data-close-modal aria-label="Tutup">✕</button>
+            </div>
+            <form id="settingsForm" class="modal-body">
+                <div class="form-group">
+                    <label for="displayNameInput">Nama Tampilan</label>
+                    <input type="text" id="displayNameInput" name="displayName" class="form-input"
+                        placeholder="Nama Anda" minlength="2" maxlength="50" aria-describedby="displayNameHelp">
+                    <small id="displayNameHelp" class="form-help">2-50 karakter</small>
+                    <div class="form-error" id="displayNameError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="statusSelect">Status</label>
+                    <select id="statusSelect" name="status" class="form-input">
+                        <option value="Online">🟢 Online</option>
+                        <option value="Busy">🔴 Sibuk</option>
+                        <option value="Away">🟡 Sedang Pergi</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="themeSelect">Tema</label>
+                    <select id="themeSelect" name="theme" class="form-input">
+                        <option value="system">Ikuti Sistem</option>
+                        <option value="light">Terang</option>
+                        <option value="dark">Gelap</option>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-close-modal>Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Emoji Picker (akan dibuat dinamis dari JavaScript) -->
+    <div class="emoji-picker" id="emojiPicker" role="dialog" aria-label="Pemilih emoji" style="display: none;">
+        <!-- Emoji items akan diisi dari JavaScript -->
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer" role="region" aria-live="polite" aria-atomic="true">
+        <!-- Toast notifications akan muncul di sini -->
+    </div>
+
+    <!-- Scripts -->
+    <!-- SignalR Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@microsoft/signalr@latest/dist/browser/signalr.min.js"></script>
+
+    <!-- App Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/theme.js"></script>
+    <script src="js/modals.js"></script>
+    <script src="js/emoji-picker.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/signalr-connection.js"></script>
+    <script src="js/rooms.js"></script>
+    <script src="js/messages.js"></script>
+    <script src="js/message-composer.js"></script>
+    <script src="js/members.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>

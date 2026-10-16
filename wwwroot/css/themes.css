@@ -1,0 +1,264 @@
+/* ===================================
+   Ngariung - Theme Styles
+   Light & Dark Mode
+   ================================== */
+
+/* Default Theme Colors (Light Mode) */
+:root,
+:root[data-theme="light"] {
+    /* Backgrounds */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f7f9fc;
+    --bg-tertiary: #e8ecf2;
+    --bg-hover: #e3e8ef;
+
+    /* Text */
+    --text-primary: #1a202c;
+    --text-secondary: #4a5568;
+    --text-tertiary: #718096;
+
+    /* Borders */
+    --border-color: #e2e8f0;
+    --border-hover: #cbd5e0;
+
+    /* Accent Colors */
+    --accent-color: #3182ce;
+    --accent-hover: #2c5aa0;
+    --accent-light: #bee3f8;
+
+    /* Status Colors */
+    --success-color: #38a169;
+    --success-light: #c6f6d5;
+    --error-color: #e53e3e;
+    --error-light: #fed7d7;
+    --warning-color: #dd6b20;
+    --warning-light: #feebc8;
+    --info-color: #3182ce;
+    --info-light: #bee3f8;
+
+    /* Status Backgrounds */
+    --bg-success: #f0fdf4;
+    --text-success: #166534;
+    --bg-error: #fef2f2;
+    --text-error: #991b1b;
+    --bg-warning: #fffbeb;
+    --text-warning: #92400e;
+    --bg-info: #eff6ff;
+    --text-info: #1e40af;
+
+    /* Shadows */
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --shadow-hover: rgba(0, 0, 0, 0.15);
+}
+
+/* Dark Mode */
+:root[data-theme="dark"] {
+    /* Backgrounds */
+    --bg-primary: #1a1d23;
+    --bg-secondary: #22262e;
+    --bg-tertiary: #2c313a;
+    --bg-hover: #363c47;
+
+    /* Text */
+    --text-primary: #e2e8f0;
+    --text-secondary: #a0aec0;
+    --text-tertiary: #718096;
+
+    /* Borders */
+    --border-color: #2d3748;
+    --border-hover: #4a5568;
+
+    /* Accent Colors */
+    --accent-color: #4299e1;
+    --accent-hover: #63b3ed;
+    --accent-light: #2c5282;
+
+    /* Status Colors */
+    --success-color: #48bb78;
+    --success-light: #2f855a;
+    --error-color: #f56565;
+    --error-light: #c53030;
+    --warning-color: #ed8936;
+    --warning-light: #c05621;
+    --info-color: #4299e1;
+    --info-light: #2b6cb0;
+
+    /* Status Backgrounds */
+    --bg-success: #1c3d2f;
+    --text-success: #9ae6b4;
+    --bg-error: #3d1c1c;
+    --text-error: #fc8181;
+    --bg-warning: #3d2e1c;
+    --text-warning: #fbd38d;
+    --bg-info: #1c2d3d;
+    --text-info: #90cdf4;
+
+    /* Shadows */
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --shadow-hover: rgba(0, 0, 0, 0.4);
+}
+
+/* System Theme - Auto detect */
+@media (prefers-color-scheme: dark) {
+    :root[data-theme="system"] {
+        /* Backgrounds */
+        --bg-primary: #1a1d23;
+        --bg-secondary: #22262e;
+        --bg-tertiary: #2c313a;
+        --bg-hover: #363c47;
+
+        /* Text */
+        --text-primary: #e2e8f0;
+        --text-secondary: #a0aec0;
+        --text-tertiary: #718096;
+
+        /* Borders */
+        --border-color: #2d3748;
+        --border-hover: #4a5568;
+
+        /* Accent Colors */
+        --accent-color: #4299e1;
+        --accent-hover: #63b3ed;
+        --accent-light: #2c5282;
+
+        /* Status Colors */
+        --success-color: #48bb78;
+        --success-light: #2f855a;
+        --error-color: #f56565;
+        --error-light: #c53030;
+        --warning-color: #ed8936;
+        --warning-light: #c05621;
+        --info-color: #4299e1;
+        --info-light: #2b6cb0;
+
+        /* Status Backgrounds */
+        --bg-success: #1c3d2f;
+        --text-success: #9ae6b4;
+        --bg-error: #3d1c1c;
+        --text-error: #fc8181;
+        --bg-warning: #3d2e1c;
+        --text-warning: #fbd38d;
+        --bg-info: #1c2d3d;
+        --text-info: #90cdf4;
+
+        /* Shadows */
+        --shadow-color: rgba(0, 0, 0, 0.3);
+        --shadow-hover: rgba(0, 0, 0, 0.4);
+    }
+}
+
+/* Smooth theme transition */
+body,
+.app-container,
+.sidebar,
+.chat-main,
+.members-panel,
+.message-composer,
+.modal-content {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Theme specific adjustments */
+
+/* Dark mode scrollbar */
+:root[data-theme="dark"] ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+:root[data-theme="dark"] ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background: var(--bg-tertiary);
+    border-radius: 6px;
+}
+
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--bg-hover);
+}
+
+/* Light mode scrollbar */
+:root[data-theme="light"] ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+:root[data-theme="light"] ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+:root[data-theme="light"] ::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 6px;
+}
+
+:root[data-theme="light"] ::-webkit-scrollbar-thumb:hover {
+    background: var(--bg-hover);
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--bg-tertiary) var(--bg-secondary);
+}
+
+/* Theme specific message styling */
+:root[data-theme="dark"] .message:hover {
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+:root[data-theme="light"] .message:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Code/pre blocks (if needed later) */
+code,
+pre {
+    background-color: var(--bg-tertiary);
+    color: var(--text-primary);
+    border-radius: var(--radius-sm);
+    padding: 2px 6px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.9em;
+}
+
+/* Selection colors */
+::selection {
+    background-color: var(--accent-light);
+    color: var(--text-primary);
+}
+
+:root[data-theme="dark"] ::selection {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* Focus ring colors */
+:root[data-theme="dark"] *:focus-visible {
+    outline-color: var(--accent-hover);
+}
+
+/* Link colors */
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+/* Image/media in dark mode - prevent too bright */
+:root[data-theme="dark"] img,
+:root[data-theme="dark"] video {
+    opacity: 0.9;
+}
+
+:root[data-theme="dark"] img:hover,
+:root[data-theme="dark"] video:hover {
+    opacity: 1;
+}

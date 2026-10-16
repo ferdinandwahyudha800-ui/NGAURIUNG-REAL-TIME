@@ -1,0 +1,44 @@
+# .NET
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.user
+*.suo
+*.cache
+*.log
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+
+# IDEs
+.vs/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment
+.env
+*.local
+
+# Node (jika nanti pakai build tools)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Uploads
+uploads/
+files/
+
+# Logs
+logs/
+*.log
