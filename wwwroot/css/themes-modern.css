@@ -3,23 +3,23 @@
    Elegant Design with Glassmorphism
    ================================== */
 
-/* Modern Light Theme */
+/* Modern Light Theme - Clean & Minimalist */
 :root,
 :root[data-theme="light"] {
-    /* Primary Gradient Colors */
-    --primary: #6366f1;
-    --primary-hover: #4f46e5;
-    --primary-light: #a5b4fc;
-    --primary-dark: #3730a3;
-    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    --primary-glow: 0 0 20px rgba(99, 102, 241, 0.3);
+    /* Primary Colors - Blue & Clean */
+    --primary: #3b82f6;
+    --primary-hover: #2563eb;
+    --primary-light: #93c5fd;
+    --primary-dark: #1d4ed8;
+    --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    --primary-glow: 0 0 20px rgba(59, 130, 246, 0.3);
 
-    /* Background - Modern Light */
+    /* Background - Clean & Simple */
     --bg-primary: #ffffff;
-    --bg-secondary: #f8fafc;
-    --bg-tertiary: #f1f5f9;
-    --bg-hover: #e2e8f0;
-    --bg-accent: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+    --bg-secondary: #f9fafb;
+    --bg-tertiary: #f3f4f6;
+    --bg-hover: #e5e7eb;
+    --bg-accent: #f9fafb;
 
     /* Glassmorphism */
     --glass-bg: rgba(255, 255, 255, 0.75);
@@ -83,15 +83,15 @@
     --transition-spring: 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-/* Modern Dark Theme */
+/* Modern Dark Theme - Clean */
 :root[data-theme="dark"] {
-    /* Primary - Lighter for dark bg */
-    --primary: #818cf8;
-    --primary-hover: #a5b4fc;
-    --primary-light: #c7d2fe;
-    --primary-dark: #6366f1;
-    --primary-gradient: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
-    --primary-glow: 0 0 30px rgba(129, 140, 248, 0.4);
+    /* Primary - Blue for dark bg */
+    --primary: #60a5fa;
+    --primary-hover: #93c5fd;
+    --primary-light: #bfdbfe;
+    --primary-dark: #3b82f6;
+    --primary-gradient: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+    --primary-glow: 0 0 30px rgba(96, 165, 250, 0.4);
 
     /* Background - Deep Dark with Blue tint */
     --bg-primary: #0f172a;
